@@ -14,14 +14,21 @@ exports.createPages = ({ graphql, actions }) => {
             }
           }
         }
+        allDatoCmsLesson {
+          edges {
+            node {
+              slug
+            }
+          }
+        }
       }
     `).then(result => {
-      result.data.allDatoCmsWork.edges.map(({ node: work }) => {
+      result.data.allDatoCmsLesson.edges.map(({ node: lesson }) => {
         createPage({
-          path: `works/${work.slug}`,
-          component: path.resolve(`./src/templates/work.js`),
+          path: `lessons/${lesson.slug}`,
+          component: path.resolve(`./src/templates/lesson.js`),
           context: {
-            slug: work.slug,
+            slug: lesson.slug,
           },
         })
       })

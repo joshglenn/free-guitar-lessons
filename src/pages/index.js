@@ -6,7 +6,7 @@ import Layout from "../components/layout"
 
 const IndexPage = ({ data }) => (
   <Layout>
-    <Masonry className="showcase">
+    {/* <Masonry className="showcase">
       {data.allDatoCmsWork.edges.map(({ node: work }) => (
         <div key={work.id} className="showcase__item">
           <figure className="card">
@@ -19,6 +19,32 @@ const IndexPage = ({ data }) => (
               </h6>
               <div className="card__description">
                 <p>{work.excerpt}</p>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      ))}
+    </Masonry> */}
+    <Masonry className="showcase">
+      {data.allDatoCmsLesson.edges.map(({ node: lesson }) => (
+        <div key={lesson.id} className="showcase__item">
+          <figure className="card">
+            {lesson.coverImageUrl ? 
+            <Link to={`/lessons/${lesson.slug}`} className="card__image">
+              <img src={lesson.coverImageUrl} />
+            </Link>            
+            :             
+            <Link to={`/lessons/${lesson.slug}`} className="card__image">
+              {lesson.coverImage ? <Img fluid={lesson.coverImage.fluid} /> : <br/> }           
+            </Link> 
+            }
+
+            <figcaption className="card__caption">
+              <h6 className="card__title">
+                <Link to={`/lessons/${lesson.slug}`}>{lesson.title}</Link>
+              </h6>
+              <div className="card__description">
+                <p>{lesson.excerpt}</p>
               </div>
             </figcaption>
           </figure>
@@ -44,6 +70,23 @@ export const query = graphql`
               ...GatsbyDatoCmsSizes
             }
           }
+        }
+      }
+    }
+    allDatoCmsLesson(sort: { fields: [position], order: ASC }) {
+      edges {
+        node {
+          id
+          title
+          slug
+          excerpt
+          coverImage {
+            fluid(maxWidth: 450, imgixParams: { fm: "jpg", auto: "compress" }) {
+              ...GatsbyDatoCmsSizes
+            }
+          }
+          coverImageUrl
+          
         }
       }
     }
